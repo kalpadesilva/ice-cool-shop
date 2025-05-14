@@ -19,7 +19,4 @@ function App() {
   )
 }
 
-// @apply h-screen w-auto bg-contain bg-no-repeat bg-center;
-//     background-image: url('/images/background.png');
-
 export default App
