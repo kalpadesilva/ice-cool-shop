@@ -3,20 +3,22 @@ package com.icecool.icecoolshop.controller;
 import com.icecool.icecoolshop.dto.Condiment;
 import com.icecool.icecoolshop.dto.PriceRequest;
 import com.icecool.icecoolshop.dto.PriceResponse;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class PriceController {
 
     public static final String RASPBERRY_SLUSHY = "Raspberry Slushy";
-    public static final String NUTTY_FRUITY = "Nutty Fruity";
+    public static final String NUTTY_FRUIT = "Nutty Fruit";
     public static final String PISTACHIO_DELIGHT = "Pistachio Delight";
     public static final String COCO_COFFEE = "Coco Coffee";
     public static final String SPRINKLES = "Sprinkles";
@@ -33,8 +35,8 @@ public class PriceController {
     public static final String WAFFLE_BOWL = "Waffle Bowl";
     public static final String ICE_CREAM_SANDWICH_WAFERS = "Ice Cream Sandwich Wafers";
 
-    @GetMapping("calc_price")
-    public PriceResponse calcPrice(@RequestBody PriceRequest priceRequest){
+    @PostMapping("calc_price")
+    public ResponseEntity<PriceResponse> calcPrice(@RequestBody PriceRequest priceRequest){
         String base = priceRequest.getBase();
         int scoops = priceRequest.getScoops();
         List<Condiment> condiments = priceRequest.getCondiments();
@@ -47,21 +49,21 @@ public class PriceController {
         Map<String,Integer> basePrices = Map.of(
           RASPBERRY_SLUSHY,200,
           COCO_COFFEE,350,
-          NUTTY_FRUITY,150,
+          NUTTY_FRUIT,150,
           PISTACHIO_DELIGHT,350
         );
 
         // HashMap of compatible bases and condiments
         Map<String, List<String>> compatibleBases = Map.of(
-                SPRINKLES, List.of(RASPBERRY_SLUSHY,NUTTY_FRUITY),
-                TOASTED_MARSHMALLOW, List.of(RASPBERRY_SLUSHY,NUTTY_FRUITY, PISTACHIO_DELIGHT),
-                TOASTED_ALMOND_FLAKES, List.of(NUTTY_FRUITY, COCO_COFFEE, PISTACHIO_DELIGHT),
-                PEANUT_BUTTER, List.of(RASPBERRY_SLUSHY,NUTTY_FRUITY, COCO_COFFEE, PISTACHIO_DELIGHT),
-                OREO_CRUMBLES, List.of(RASPBERRY_SLUSHY,NUTTY_FRUITY, COCO_COFFEE, PISTACHIO_DELIGHT),
-                DRIED_APPLES, List.of(RASPBERRY_SLUSHY, NUTTY_FRUITY),
-                DRIED_MANGO, List.of(RASPBERRY_SLUSHY,NUTTY_FRUITY),
-                DRIED_APRICOT, List.of(RASPBERRY_SLUSHY,NUTTY_FRUITY),
-                DRIED_BLUEBERRY, List.of(RASPBERRY_SLUSHY,NUTTY_FRUITY)
+                SPRINKLES, List.of(RASPBERRY_SLUSHY,NUTTY_FRUIT),
+                TOASTED_MARSHMALLOW, List.of(RASPBERRY_SLUSHY,NUTTY_FRUIT, PISTACHIO_DELIGHT),
+                TOASTED_ALMOND_FLAKES, List.of(NUTTY_FRUIT, COCO_COFFEE, PISTACHIO_DELIGHT),
+                PEANUT_BUTTER, List.of(RASPBERRY_SLUSHY,NUTTY_FRUIT, COCO_COFFEE, PISTACHIO_DELIGHT),
+                OREO_CRUMBLES, List.of(RASPBERRY_SLUSHY,NUTTY_FRUIT, COCO_COFFEE, PISTACHIO_DELIGHT),
+                DRIED_APPLES, List.of(RASPBERRY_SLUSHY, NUTTY_FRUIT),
+                DRIED_MANGO, List.of(RASPBERRY_SLUSHY,NUTTY_FRUIT),
+                DRIED_APRICOT, List.of(RASPBERRY_SLUSHY,NUTTY_FRUIT),
+                DRIED_BLUEBERRY, List.of(RASPBERRY_SLUSHY,NUTTY_FRUIT)
         );
 
         // HasMap of condiment prices
@@ -86,24 +88,39 @@ public class PriceController {
         );
 
         // Check base and condiment compatibility, and add value
-        for (Condiment condiment: condiments ){
+        for (Condiment condiment : condiments) {
             String condimentName = condiment.getCondimentName();
-            if(compatibleBases.get(condimentName).contains(base)){
+            if (compatibleBases.containsKey(condimentName) && compatibleBases.get(condimentName).contains(base)) {
                 price += condimentPrices.get(condimentName) * condiment.getCount();
-            }else {
-                isValid=false;
+            } else {
+                isValid = false;
                 price = 0.0;
-                message="Invalid Order";
-                return new PriceResponse(isValid,price,message);
+                message = "Invalid Order";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new PriceResponse(isValid, price, message));
             }
         }
 
         // Add price of base
-        price += basePrices.get(base) * scoops;
-
+        if (basePrices.containsKey(base)) {
+            price += basePrices.get(base) * scoops;
+        } else {
+            isValid = false;
+            price = 0.0;
+            message = "Invalid Base";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new PriceResponse(isValid, price, message));
+        }
         // Add price of container
-        price += containerPrices.get(container);
-
-        return new PriceResponse(isValid,price,message);
+        if (containerPrices.containsKey(container)) {
+            price += containerPrices.get(container);
+        } else {
+            isValid = false;
+            price = 0.0;
+            message = "Invalid Container";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new PriceResponse(isValid, price, message));
+        }
+        return ResponseEntity.ok(new PriceResponse(isValid, price, message));
     }
 }
