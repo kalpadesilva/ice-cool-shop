@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "f8fc7214-5247-4982-8947-d71026ceb987",
+		"name": "IceCool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32592552"
+	},
+	"item": [
+		{
+			"name": "Request 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"base\" : \"Raspberry Slushy\",\r\n    \"scoops\" : 1,\r\n    \"condiments\" : [\r\n        {\r\n            \"condimentName\" : \"Sprinkles\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Peanut Butter\",\r\n            \"count\" : 3\r\n        },\r\n        {\r\n            \"condimentName\" : \"Dried Apricot\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Dried Blueberry\",\r\n            \"count\" : 1\r\n        }\r\n    ],\r\n    \"container\" : \"Waffle Cone\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/calc_price",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"calc_price"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"base\" : \"Nutty Fruit\",\r\n    \"scoops\" : 3,\r\n    \"condiments\" : [\r\n        {\r\n            \"condimentName\" : \"Sprinkles\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Toasted Marshmallow\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Toasted Almond Flakes\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Peanut Butter\",\r\n            \"count\" : 2\r\n        },\r\n        {\r\n            \"condimentName\" : \"Oreo Crumbles\",\r\n            \"count\" : 3\r\n        },\r\n        {\r\n            \"condimentName\" : \"Dried Apples\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Dried Mango\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Dried Apricot\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Dried Blueberry\",\r\n            \"count\" : 1\r\n        }\r\n    ],\r\n    \"container\" : \"Waffle Bowl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/calc_price",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"calc_price"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request 3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"base\" : \"Pistachio Delight\",\r\n    \"scoops\" : 1,\r\n    \"condiments\" : [\r\n        {\r\n            \"condimentName\" : \"Toasted Marshmallow\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Dried Mango\",\r\n            \"count\" : 1\r\n        }\r\n    ],\r\n    \"container\" : \"Wafer Cone\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/calc_price",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"calc_price"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request 4",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"base\" : \"Coco Coffee\",\r\n    \"scoops\" : 1,\r\n    \"condiments\" : [\r\n        {\r\n            \"condimentName\" : \"Sprinkles\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Toasted Almond Flakes\",\r\n            \"count\" : 1\r\n        },\r\n        {\r\n            \"condimentName\" : \"Oreo Crumbles\",\r\n            \"count\" : 4\r\n        }\r\n    ],\r\n    \"container\" : \"Ice Cream Sandwich Wafers\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/calc_price",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"calc_price"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
